@@ -1,8 +1,0 @@
-{
-    "apiVersion": 3,
-    "title": "news",
-    "name": "news-feed-gutenberg/news",
-    "category": "embed",
-    "icon": "universal-access-alt",
-    "editorScript": "file:./build/index.js"
-}

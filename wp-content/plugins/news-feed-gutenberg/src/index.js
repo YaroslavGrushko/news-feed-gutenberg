@@ -1,14 +1,20 @@
-/**
- * WordPress dependencies
- */
- import { registerBlockType } from '@wordpress/blocks';
+import { registerBlockType } from '@wordpress/blocks';
+import ServerSideRender from '@wordpress/server-side-render';
+import { useBlockProps } from '@wordpress/block-editor';
 
- // Register the block
- registerBlockType( 'news-feed-gutenberg/news', {
-     edit: function () {
-         return <p> Hello world (from the editor)</p>;
-     },
-     save: function () {
-         return <p> Hola mundo (from the frontend) </p>;
-     },
- } );
+registerBlockType('news-feed-gutenberg/news-block', {
+    title: 'News Block',
+    icon: 'universal-access-alt',
+    category: 'widgets',
+    
+    edit: (props) => {
+        const blockProps = useBlockProps();
+        return(
+            <div { ...blockProps }>
+                <ServerSideRender
+                    block="news-feed-gutenberg/news-block"
+                />
+            </div>
+        )
+    },
+});
