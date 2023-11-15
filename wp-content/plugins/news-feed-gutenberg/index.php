@@ -20,20 +20,11 @@ if( !defined('NEWS_FEED_GUTENBERG_VERSION') ){
 
 class News_Feed_Gutenberg{
     function __construct(){
-        // css and js
-		add_action( 'wp_enqueue_scripts', array($this, 'news_feed_gutenberg_register_scripts') );
+        // register news block
+		add_action( 'init', array($this, 'news_feed_gutenberg_register_block') );
 	}
-
-    // register css and js files
-	function news_feed_gutenberg_register_scripts(){
-		$css_folder = plugin_dir_url( __FILE__ ) . 'css';
-		$js_folder = plugin_dir_url( __FILE__ ) . 'js';
-		$plugin_version = NEWS_FEED_GUTENBERG_VERSION;
-
-		// main styles file
-		wp_enqueue_style( 'tp-style', $css_folder . '/news_feed_gutenberg.css', array(), $plugin_version );
-		// main js file
-		wp_enqueue_script( 'tp-script', $js_folder . '/news_feed_gutenberg.js', array( 'jquery' ), $plugin_version,  true);	
+	function news_feed_gutenberg_register_block() {
+		register_block_type( __DIR__ );
 	}
 }
 
