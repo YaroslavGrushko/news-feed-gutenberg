@@ -48,11 +48,16 @@ class News_Feed_Gutenberg{
 		$url = "https://wpml.org/wp-json/wp/v2/posts/";
 		
 		$response = wp_remote_get($url);
+		$result_html = '';
 	
 		if (is_array($response) && !is_wp_error($response)) {
 			$body = wp_remote_retrieve_body($response);
 			$response_array = json_decode($body, true);
-			return $response_array;
+			for($i = 0; $i <= 3; $i++){
+				$item = $response_array[$i];
+				$result_html = $result_html . '<p>' .  $item['title']['rendered'] . '</p>';
+			}
+			return $result_html;
 		}
 	
 		return [];
