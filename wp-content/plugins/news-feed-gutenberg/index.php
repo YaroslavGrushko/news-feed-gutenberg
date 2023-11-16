@@ -52,20 +52,35 @@ class News_Feed_Gutenberg{
 		$country = $block_attributes['country'];
 		// $category = $block_attributes['category'];
 	
-		// $api_key = 'd77f778d6d4643ebb53fc72ce08513c1';
-		// $url = "https://newsapi.org/v2/top-headlines?country=$country&category=$category&apiKey=$api_key";
+		$api_key = 'd77f778d6d4643ebb53fc72ce08513c1';
+		$api_url = "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$api_key";
+		$user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
 	
-		$url = "https://wpml.org/wp-json/wp/v2/posts/";
+		// $url = "https://wpml.org/wp-json/wp/v2/posts/";
 		
-		$response = wp_remote_get($url);
+		// $response = wp_remote_get($api_url);
+
+		$request_args = array(
+			'method'      => 'GET',
+			'headers'     => array(
+				'Content-Type' => 'application/json',
+				'User-Agent' => $user_agent,
+			),
+		);
+
+		// request to api
+		$response = wp_remote_get($api_url, $request_args);
 		$result_html = $country;
 	
 		if (is_array($response) && !is_wp_error($response)) {
 			$body = wp_remote_retrieve_body($response);
 			$response_array = json_decode($body, true);
+			$articles = $response_array['articles'];
 			for($i = 0; $i <= 3; $i++){
-				$item = $response_array[$i];
-				$result_html = $result_html . '<p>' .  $item['title']['rendered'] . '</p>';
+				$item = $articles[$i];
+				$result_html = $result_html . '<p><strong><a href="' . $item['url'] . '">' .  $item['title'] . '</a></strong></p>';
+				$result_html = $result_html . '<p><img src="' . $item['urlToImage'] . '" alt="' .  $item['title'] . '" style="max-width: 100%"/></p>';
+				$result_html = $result_html . '<p>' .  $item['description'] . '</p><br>';
 			}
 			return $result_html;
 		}

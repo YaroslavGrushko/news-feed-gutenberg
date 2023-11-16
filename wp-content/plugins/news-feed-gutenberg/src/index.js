@@ -10,10 +10,11 @@ registerBlockType('news-feed-gutenberg/news-block', {
         const blockProps = useBlockProps();
         const { attributes, setAttributes } = props;
         const { TextControl } = wp.components;
+        const { __ } = wp.i18n;
         return(
             <div { ...blockProps }>
                 <TextControl 
-                    label="Choose country"
+                    label={__("Choose country", 'news_feed_gutenberg')}
                     type="string"
                     value={attributes.country}
                     onChange={(newval) => setAttributes({ country: newval })}
