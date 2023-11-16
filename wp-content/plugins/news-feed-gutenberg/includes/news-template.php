@@ -44,7 +44,14 @@ $selected_category = $category;
             type="submit"
             name="news_feed_gutenberg_form_submit" 
             id="news_feed_gutenberg_form_submit"
-            value=" <?php echo esc_html__( 'Apply Filter', 'news_feed_gutenberg'); ?>"
+            value="<?php echo esc_html__( 'Apply Filter', 'news_feed_gutenberg'); ?>"
+        />
+        <input 
+            type="submit"
+            class="news_feed_gutenberg_form_more"
+            name="news_feed_gutenberg_form_more"
+            id="news_feed_gutenberg_form_more"
+            value="<?php echo esc_html__( 'More', 'news_feed_gutenberg'); ?>"
         />
     </form>
 

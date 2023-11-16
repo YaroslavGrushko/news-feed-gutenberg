@@ -53,7 +53,7 @@ class News_Feed_Gutenberg{
 			'attributes' => [
 				'apikey' => [
 					'type' => 'string',
-					'default' => 'd77f778d6d4643ebb53fc72ce08513c1',
+					'default' => '4794618f58b44a2e98159af1978784a7',
 				],
 				'pageSize' => [
 					'type' => 'integer',
@@ -73,7 +73,8 @@ class News_Feed_Gutenberg{
 	// render block
 	function news_feed_gutenberg_render_block($block_attributes, $content) {
 		$api_key = $block_attributes['apikey'];
-		$page_size = $block_attributes['pageSize'];
+		$default_page_size = $block_attributes['pageSize'];
+		$page_size = $this->get_page_size($default_page_size);
 		$country = $block_attributes['country'];
 		$category = $block_attributes['category'];
 		$countries = [
@@ -90,6 +91,10 @@ class News_Feed_Gutenberg{
 		$submit_result = $this->news_feed_gutenberg_form_check_submit($country, $category);
 		$country = $submit_result["country"];
 		$category = $submit_result["category"];
+		$is_more = $submit_result["is_more"];
+		if($is_more){
+			$page_size = $this->increment_page_size($page_size);
+		}
 		$api_url = "https://newsapi.org/v2/top-headlines?country=$country&category=$category&apiKey=$api_key&pageSize=$page_size";
 		$user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
 		$request_args = array(
@@ -121,14 +126,33 @@ class News_Feed_Gutenberg{
 	
 		return [];
 	}
+	function get_page_size($default_page_size) {
+		if (!session_id()) {
+			session_start();
+		}
+
+		$page_size = isset($_SESSION['page_size']) ? $_SESSION['page_size'] : $default_page_size;
+	
+		return $page_size; 
+	}
+	function increment_page_size($page_size) {
+		$page_size = $this->get_page_size($page_size);
+	
+		$_SESSION['page_size'] = $page_size + 5;
+		return $_SESSION['page_size'];
+	}
+	
 	// form submit handler 
 	function news_feed_gutenberg_form_check_submit($country, $category) {
 		$verified = isset( $_POST['news_feed_gutenberg_nonce_field'] ) && wp_verify_nonce( $_POST['news_feed_gutenberg_nonce_field'], 'news_feed_gutenberg_nonce_action' ); 
-		if ( $verified && isset($_POST['news_feed_gutenberg_form_submit']) ) {
+		$is_more = false;
+		if ( $verified && (isset($_POST['news_feed_gutenberg_form_submit'])||isset($_POST['news_feed_gutenberg_form_more'])) ) {
 			$country = $_POST["news_feed_gutenberg_country"]; 
 			$category = $_POST["news_feed_gutenberg_category"]; 
+			$is_more = isset($_POST['news_feed_gutenberg_form_more']);
 		}
-		return ['country' => $country, 'category' => $category];
+
+		return ['country' => $country, 'category' => $category, 'is_more' => $is_more];
 	}
 }
 

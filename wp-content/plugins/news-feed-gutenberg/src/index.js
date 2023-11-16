@@ -11,7 +11,7 @@ registerBlockType('news-feed-gutenberg/news-block', {
     'attributes': {
         'apikey': {
             'type': 'string',
-            'default': 'd77f778d6d4643ebb53fc72ce08513c1',
+            'default': '4794618f58b44a2e98159af1978784a7',
         },
         'pageSize': {
             'type': 'integer',
