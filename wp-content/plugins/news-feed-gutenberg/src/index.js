@@ -13,6 +13,10 @@ registerBlockType('news-feed-gutenberg/news-block', {
             'type': 'string',
             'default': 'd77f778d6d4643ebb53fc72ce08513c1',
         },
+        'pageSize': {
+            'type': 'integer',
+            'default': 3,
+        },
         'country': {
             'type': 'string',
             'default': 'us',
@@ -29,10 +33,16 @@ registerBlockType('news-feed-gutenberg/news-block', {
         return(
             <div { ...blockProps }>
                 <TextControl 
-                    label="API Key"
+                    label={__("API Key", 'news_feed_gutenberg')}
                     type="string"
                     value={attributes.apikey}
                     onChange={(value) => setAttributes({ apikey: value })}
+                />
+                <TextControl 
+                    label={__("News Number", 'news_feed_gutenberg')}
+                    type="string"
+                    value={attributes.pageSize}
+                    onChange={(value) => setAttributes({ pageSize: value })}
                 />
                 <SelectControl
                     label={__("Set Default Country", 'news_feed_gutenberg')}
@@ -47,7 +57,8 @@ registerBlockType('news-feed-gutenberg/news-block', {
                     block="news-feed-gutenberg/news-block"
                     attributes={{
                         apikey: attributes.apikey,
-                        country: attributes.country
+                        pageSize: attributes.pageSize,
+                        country: attributes.country,
                     }}
                 />
             </div>

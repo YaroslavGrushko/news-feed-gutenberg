@@ -44,6 +44,10 @@ class News_Feed_Gutenberg{
 					'type' => 'string',
 					'default' => 'd77f778d6d4643ebb53fc72ce08513c1',
 				],
+				'pageSize' => [
+					'type' => 'integer',
+					'default' => 3,
+				],
 				'country' => [
 					'type' => 'string',
 					'default' => 'us',
@@ -58,6 +62,7 @@ class News_Feed_Gutenberg{
 	// render block
 	function news_feed_gutenberg_render_block($block_attributes, $content) {
 		$api_key = $block_attributes['apikey'];
+		$page_size = $block_attributes['pageSize'];
 		$country = $block_attributes['country'];
 		// $category = $block_attributes['category'];
 		$countries = [
@@ -66,7 +71,7 @@ class News_Feed_Gutenberg{
 		];
 
 		$country = $this->news_feed_gutenberg_form_check_submit($country);
-		$api_url = "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$api_key";
+		$api_url = "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$api_key&pageSize=$page_size";
 		$user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
 		$request_args = array(
 			'method'      => 'GET',

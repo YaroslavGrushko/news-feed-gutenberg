@@ -33,8 +33,7 @@ $selected_country = $country;
 
 
     <?php
-        for($i = 0; $i <= 2; $i++){
-            $article = $articles[$i];
+        foreach( $articles as $article ){
             ?>
             <p>
                 <strong>
