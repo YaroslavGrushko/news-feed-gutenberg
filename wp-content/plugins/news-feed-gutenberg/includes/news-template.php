@@ -8,35 +8,37 @@ $selected_category = $category;
 ?>
 <div class="news_feed_gutenberg-container">
     <h1><?php echo esc_html__( 'Filters', 'news_feed_gutenberg');?></h1>
-    <form id="news_feed_gutenberg-form" method="post" enctype="multipart/form-data">
-        <label for="news_feed_gutenberg_country"><?php echo esc_html__( 'Choose Country', 'news_feed_gutenberg');?></label>
-        <div class="field">
-            <select name="news_feed_gutenberg_country" id="news_feed_gutenberg_country">
-                <?php
-                foreach( $countries as $key => $value ){?>
-                    <option 
-                        value="<?php echo esc_attr($key); ?>" 
-                        <?php echo esc_attr(selected($key, $selected_country, false)); ?>>
-                            <?php echo esc_html($value); ?>
-                    </option>
-                <?php } ?>
-            </select>
+    <form id="news_feed_gutenberg-form" class="news-feed-gutenberg-form" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="news_feed_gutenberg_country"><?php echo esc_html__( 'Choose Country', 'news_feed_gutenberg');?></label>
+            <div class="field">
+                <select name="news_feed_gutenberg_country" id="news_feed_gutenberg_country">
+                    <?php
+                    foreach( $countries as $key => $value ){?>
+                        <option 
+                            value="<?php echo esc_attr($key); ?>" 
+                            <?php echo esc_attr(selected($key, $selected_country, false)); ?>>
+                                <?php echo esc_html($value); ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
         </div>
-
-        <label for="news_feed_gutenberg_category"><?php echo esc_html__( 'Choose Category', 'news_feed_gutenberg');?></label>
-        <div class="field">
-            <select name="news_feed_gutenberg_category" id="news_feed_gutenberg_category">
-                <?php
-                foreach( $categories as $key => $value ){?>
-                    <option 
-                        value="<?php echo esc_attr($key); ?>" 
-                        <?php echo esc_attr(selected($key, $selected_category, false)); ?>>
-                            <?php echo esc_html($value); ?>
-                    </option>
-                <?php } ?>
-            </select>
+        <div>
+            <label for="news_feed_gutenberg_category"><?php echo esc_html__( 'Choose Category', 'news_feed_gutenberg');?></label>
+            <div class="field">
+                <select name="news_feed_gutenberg_category" id="news_feed_gutenberg_category">
+                    <?php
+                    foreach( $categories as $key => $value ){?>
+                        <option 
+                            value="<?php echo esc_attr($key); ?>" 
+                            <?php echo esc_attr(selected($key, $selected_category, false)); ?>>
+                                <?php echo esc_html($value); ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
         </div>
-
         <?php wp_nonce_field('news_feed_gutenberg_nonce_action', 'news_feed_gutenberg_nonce_field'); ?>
         <input 
             type="submit"
