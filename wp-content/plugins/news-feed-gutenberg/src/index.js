@@ -1,6 +1,8 @@
 import { registerBlockType } from '@wordpress/blocks';
-import ServerSideRender from '@wordpress/server-side-render';
 import { useBlockProps } from '@wordpress/block-editor';
+import { SelectControl } from '@wordpress/components';
+import ServerSideRender from '@wordpress/server-side-render';
+
 
 registerBlockType('news-feed-gutenberg/news-block', {
     title: 'News Block',
@@ -9,15 +11,17 @@ registerBlockType('news-feed-gutenberg/news-block', {
     edit: ( props ) => {
         const blockProps = useBlockProps();
         const { attributes, setAttributes } = props;
-        const { TextControl } = wp.components;
         const { __ } = wp.i18n;
         return(
             <div { ...blockProps }>
-                <TextControl 
+                <SelectControl
                     label={__("Choose country", 'news_feed_gutenberg')}
-                    type="string"
                     value={attributes.country}
-                    onChange={(newval) => setAttributes({ country: newval })}
+                    options={[
+                        { label: 'USA', value: 'us' },
+                        { label: 'Ukraine', value: 'ua' },
+                    ]}
+                    onChange={(value) => setAttributes({ country: value })}
                 />
                 <ServerSideRender
                     block="news-feed-gutenberg/news-block"

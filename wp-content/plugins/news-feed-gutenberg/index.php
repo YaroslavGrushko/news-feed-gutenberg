@@ -55,11 +55,6 @@ class News_Feed_Gutenberg{
 		$api_key = 'd77f778d6d4643ebb53fc72ce08513c1';
 		$api_url = "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$api_key";
 		$user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
-	
-		// $url = "https://wpml.org/wp-json/wp/v2/posts/";
-		
-		// $response = wp_remote_get($api_url);
-
 		$request_args = array(
 			'method'      => 'GET',
 			'headers'     => array(
@@ -70,7 +65,6 @@ class News_Feed_Gutenberg{
 
 		// request to api
 		$response = wp_remote_get($api_url, $request_args);
-		$result_html = $country;
 	
 		if (is_array($response) && !is_wp_error($response)) {
 			$body = wp_remote_retrieve_body($response);
