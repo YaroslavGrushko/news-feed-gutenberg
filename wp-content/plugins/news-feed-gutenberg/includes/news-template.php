@@ -3,25 +3,56 @@
  * @package news-feed-gutenberg
  */
 
-for($i = 0; $i <= 2; $i++){
-    $article = $articles[$i];
-    ?>
-    <p>
-        <strong>
-            <a href="<?php echo esc_url($article['url']);?>"> 
-                <?php echo esc_html($article['title']);?>
-            </a>
-        </strong>
-    </p>
-    <p>
-        <img 
-            src="<?php echo esc_url($article['urlToImage']);?>" 
-            alt="<?php echo esc_attr($article['title']);?>" 
-            style="max-width: 100%"/>
-    </p>
-    <p>     
-        <?php echo esc_html($article['description']);?>   
-    </p>
-    <?php
-}
+$selected_country = $country;
 ?>
+<div class="news_feed_gutenberg-container">
+    <h1><?php echo esc_html__( 'Filters', 'news_feed_gutenberg');?></h1>
+    <form id="news_feed_gutenberg-form" method="post" enctype="multipart/form-data">
+        <label for="news_feed_gutenberg_country>"><?php echo esc_html__( 'Country', 'news_feed_gutenberg');?></label>
+        <div class="field">
+            <select name="news_feed_gutenberg_country" id="news_feed_gutenberg_country">
+                <?php
+                foreach( $countries as $key => $value ){?>
+                    <option 
+                        value="<?php echo esc_attr($key); ?>" 
+                        <?php echo esc_attr(selected($key, $selected_country, false)); ?>>
+                            <?php echo esc_html($value); ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <?php wp_nonce_field('news_feed_gutenberg_nonce_action', 'news_feed_gutenberg_nonce_field'); ?>
+        <input 
+            type="submit"
+            name="news_feed_gutenberg_form_submit" 
+            id="news_feed_gutenberg_form_submit"
+            value=" <?php echo esc_html__( 'Apply', 'news_feed_gutenberg'); ?>"
+        />
+    </form>
+
+
+<?php
+    for($i = 0; $i <= 2; $i++){
+        $article = $articles[$i];
+        ?>
+        <p>
+            <strong>
+                <a href="<?php echo esc_url($article['url']);?>"> 
+                    <?php echo esc_html($article['title']);?>
+                </a>
+            </strong>
+        </p>
+        <p>
+            <img 
+                src="<?php echo esc_url($article['urlToImage']);?>" 
+                alt="<?php echo esc_attr($article['title']);?>" 
+                style="max-width: 100%"/>
+        </p>
+        <p>     
+            <?php echo esc_html($article['description']);?>   
+        </p>
+        <?php
+    }?>
+</div>
+

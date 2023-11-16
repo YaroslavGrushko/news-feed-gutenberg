@@ -21,7 +21,7 @@ if( !defined('NEWS_FEED_GUTENBERG_VERSION') ){
 	define('NEWS_FEED_GUTENBERG_VERSION', plugin_dir_path( __FILE__ ));
 }
 
-class News_Feed_Gutenberg{
+class News_Feed_Gutenberg{	
     function __construct(){
 		add_action( 'init', array($this, 'news_feed_gutenberg_register_block') );
 	}
@@ -51,10 +51,17 @@ class News_Feed_Gutenberg{
 			],
 		]);
 	}
+	// render block
 	function news_feed_gutenberg_render_block($block_attributes, $content) {
 		$country = $block_attributes['country'];
 		// $category = $block_attributes['category'];
-	
+		$countries = [
+			'us' => 'USA',
+			'ua' => 'Ukraine',
+		];
+
+		$country = $this->news_feed_gutenberg_form_check_submit($country);
+
 		$api_key = 'd77f778d6d4643ebb53fc72ce08513c1';
 		$api_url = "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$api_key";
 		$user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
@@ -80,6 +87,14 @@ class News_Feed_Gutenberg{
 		}
 	
 		return [];
+	}
+	// form submit handler 
+	function news_feed_gutenberg_form_check_submit($country) {
+		$verified = isset( $_POST['news_feed_gutenberg_nonce_field'] ) && wp_verify_nonce( $_POST['news_feed_gutenberg_nonce_field'], 'news_feed_gutenberg_nonce_action' ); 
+		if ( $verified && isset($_POST['news_feed_gutenberg_form_submit']) ) {
+			$country = $_POST["news_feed_gutenberg_country"]; 
+		}
+		return $country;
 	}
 }
 

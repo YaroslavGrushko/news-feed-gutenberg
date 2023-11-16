@@ -8,6 +8,16 @@ registerBlockType('news-feed-gutenberg/news-block', {
     title: 'News Block',
     icon: 'universal-access-alt',
     category: 'widgets',
+    'attributes': {
+        'country': {
+            'type' : 'string',
+            'default' : 'us',
+        },
+        'category' : {
+            'type' : 'string',
+            'default': 'general',
+        },
+    },
     edit: ( props ) => {
         const blockProps = useBlockProps();
         const { attributes, setAttributes } = props;
