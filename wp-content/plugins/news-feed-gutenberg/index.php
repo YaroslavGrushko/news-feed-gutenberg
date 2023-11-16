@@ -36,11 +36,21 @@ class News_Feed_Gutenberg{
 		register_block_type('news-feed-gutenberg/news-block', [
 			'editor_script' => 'news-feed-gutenberg-block',
 			'render_callback' => array($this, 'news_feed_gutenberg_render_block'),
+			'attributes' => [
+				'country' => [
+					'type' => 'string',
+					'default' => 'us',
+				],
+				'category' => [
+					'type' => 'string',
+					'default' => 'general',
+				],
+			],
 		]);
 	}
-	function news_feed_gutenberg_render_block($attributes) {
-		// $country = $attributes['country'];
-		// $category = $attributes['category'];
+	function news_feed_gutenberg_render_block($block_attributes, $content) {
+		$country = $block_attributes['country'];
+		// $category = $block_attributes['category'];
 	
 		// $api_key = 'd77f778d6d4643ebb53fc72ce08513c1';
 		// $url = "https://newsapi.org/v2/top-headlines?country=$country&category=$category&apiKey=$api_key";
@@ -48,7 +58,7 @@ class News_Feed_Gutenberg{
 		$url = "https://wpml.org/wp-json/wp/v2/posts/";
 		
 		$response = wp_remote_get($url);
-		$result_html = '';
+		$result_html = $country;
 	
 		if (is_array($response) && !is_wp_error($response)) {
 			$body = wp_remote_retrieve_body($response);
