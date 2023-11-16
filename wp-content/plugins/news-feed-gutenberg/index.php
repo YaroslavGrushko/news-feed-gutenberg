@@ -40,6 +40,10 @@ class News_Feed_Gutenberg{
 			'editor_script' => 'news-feed-gutenberg-block',
 			'render_callback' => array($this, 'news_feed_gutenberg_render_block'),
 			'attributes' => [
+				'apikey' => [
+					'type' => 'string',
+					'default' => 'd77f778d6d4643ebb53fc72ce08513c1',
+				],
 				'country' => [
 					'type' => 'string',
 					'default' => 'us',
@@ -53,6 +57,7 @@ class News_Feed_Gutenberg{
 	}
 	// render block
 	function news_feed_gutenberg_render_block($block_attributes, $content) {
+		$api_key = $block_attributes['apikey'];
 		$country = $block_attributes['country'];
 		// $category = $block_attributes['category'];
 		$countries = [
@@ -61,8 +66,6 @@ class News_Feed_Gutenberg{
 		];
 
 		$country = $this->news_feed_gutenberg_form_check_submit($country);
-
-		$api_key = 'd77f778d6d4643ebb53fc72ce08513c1';
 		$api_url = "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$api_key";
 		$user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
 		$request_args = array(
@@ -79,6 +82,12 @@ class News_Feed_Gutenberg{
 		if (is_array($response) && !is_wp_error($response)) {
 			$body = wp_remote_retrieve_body($response);
 			$response_array = json_decode($body, true);
+			$status = $response_array['status'];
+			if($status !== 'ok'){
+				// error
+				$message = $response_array['message'];
+				return $message;
+			}
 			$articles = $response_array['articles'];
 
 			ob_start();

@@ -1,6 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
-import { SelectControl } from '@wordpress/components';
+import { TextControl, SelectControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
 
@@ -9,12 +9,16 @@ registerBlockType('news-feed-gutenberg/news-block', {
     icon: 'universal-access-alt',
     category: 'widgets',
     'attributes': {
-        'country': {
-            'type' : 'string',
-            'default' : 'us',
+        'apikey': {
+            'type': 'string',
+            'default': 'd77f778d6d4643ebb53fc72ce08513c1',
         },
-        'category' : {
-            'type' : 'string',
+        'country': {
+            'type': 'string',
+            'default': 'us',
+        },
+        'category': {
+            'type': 'string',
             'default': 'general',
         },
     },
@@ -24,8 +28,14 @@ registerBlockType('news-feed-gutenberg/news-block', {
         const { __ } = wp.i18n;
         return(
             <div { ...blockProps }>
+                <TextControl 
+                    label="API Key"
+                    type="string"
+                    value={attributes.apikey}
+                    onChange={(value) => setAttributes({ apikey: value })}
+                />
                 <SelectControl
-                    label={__("Choose country", 'news_feed_gutenberg')}
+                    label={__("Set Default Country", 'news_feed_gutenberg')}
                     value={attributes.country}
                     options={[
                         { label: 'USA', value: 'us' },
@@ -36,6 +46,7 @@ registerBlockType('news-feed-gutenberg/news-block', {
                 <ServerSideRender
                     block="news-feed-gutenberg/news-block"
                     attributes={{
+                        apikey: attributes.apikey,
                         country: attributes.country
                     }}
                 />
