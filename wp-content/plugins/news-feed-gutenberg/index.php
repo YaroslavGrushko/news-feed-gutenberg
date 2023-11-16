@@ -8,7 +8,10 @@
  * Author URI: https://yvg.com.ua/
  * Text Domain: news-feed-gutenberg
  * Domain Path: /languages/
+ *
+ * @package news-feed-gutenberg
  */
+
 
 if( !defined('NEWS_FEED_GUTENBERG_VERSION') ){
 	define('NEWS_FEED_GUTENBERG_VERSION', '1.0.0');
@@ -70,13 +73,10 @@ class News_Feed_Gutenberg{
 			$body = wp_remote_retrieve_body($response);
 			$response_array = json_decode($body, true);
 			$articles = $response_array['articles'];
-			for($i = 0; $i <= 3; $i++){
-				$item = $articles[$i];
-				$result_html = $result_html . '<p><strong><a href="' . $item['url'] . '">' .  $item['title'] . '</a></strong></p>';
-				$result_html = $result_html . '<p><img src="' . $item['urlToImage'] . '" alt="' .  $item['title'] . '" style="max-width: 100%"/></p>';
-				$result_html = $result_html . '<p>' .  $item['description'] . '</p><br>';
-			}
-			return $result_html;
+
+			ob_start();
+			require plugin_dir_path( __FILE__ ) . 'includes/news-template.php';
+			return ob_get_clean();
 		}
 	
 		return [];
