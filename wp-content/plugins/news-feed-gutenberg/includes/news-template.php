@@ -7,7 +7,7 @@ $selected_country = $country;
 $selected_category = $category;
 ?>
 <div class="news_feed_gutenberg-container">
-    <h1><?php echo esc_html__( 'Filters', 'news_feed_gutenberg');?></h1>
+    <h3 class="filter-title"><?php echo esc_html__( 'Filters:', 'news_feed_gutenberg');?></h3>
     <form id="news_feed_gutenberg-form" class="news-feed-gutenberg-form" method="post" enctype="multipart/form-data">
         <div>
             <label for="news_feed_gutenberg_country"><?php echo esc_html__( 'Choose Country', 'news_feed_gutenberg');?></label>
@@ -52,22 +52,25 @@ $selected_category = $category;
     <?php
         foreach( $articles as $article ){
             ?>
-            <p>
-                <strong>
-                    <a href="<?php echo esc_url($article['url']);?>"> 
-                        <?php echo esc_html($article['title']);?>
-                    </a>
-                </strong>
-            </p>
-            <p>
-                <img 
-                    src="<?php echo esc_url($article['urlToImage']);?>" 
-                    alt="<?php echo esc_attr($article['title']);?>" 
-                    style="max-width: 100%"/>
-            </p>
-            <p>     
-                <?php echo esc_html($article['description']);?>   
-            </p>
+            <div class="news-feed-gutenberg-article">
+                <p>
+                    <strong class="news-feed-gutenberg-article-title">
+                        <a href="<?php echo esc_url($article['url']);?>"> 
+                            <?php echo esc_html($article['title']);?>
+                        </a>
+                    </strong>
+                </p>
+                <p>
+                    <img 
+                        src="<?php echo esc_url($article['urlToImage']);?>" 
+                        class="news-feed-gutenberg-image"
+                        alt="<?php echo esc_attr($article['title']);?>" 
+                    />
+                </p>
+                <p>     
+                    <?php echo esc_html($article['description']);?>   
+                </p>
+            </div>
             <?php
         }
     ?>
