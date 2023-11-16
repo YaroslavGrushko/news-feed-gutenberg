@@ -4,6 +4,7 @@
  */
 
 $selected_country = $country;
+$selected_category = $category;
 ?>
 <div class="news_feed_gutenberg-container">
     <h1><?php echo esc_html__( 'Filters', 'news_feed_gutenberg');?></h1>
@@ -16,6 +17,20 @@ $selected_country = $country;
                     <option 
                         value="<?php echo esc_attr($key); ?>" 
                         <?php echo esc_attr(selected($key, $selected_country, false)); ?>>
+                            <?php echo esc_html($value); ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <label for="news_feed_gutenberg_category"><?php echo esc_html__( 'Choose Category', 'news_feed_gutenberg');?></label>
+        <div class="field">
+            <select name="news_feed_gutenberg_category" id="news_feed_gutenberg_category">
+                <?php
+                foreach( $categories as $key => $value ){?>
+                    <option 
+                        value="<?php echo esc_attr($key); ?>" 
+                        <?php echo esc_attr(selected($key, $selected_category, false)); ?>>
                             <?php echo esc_html($value); ?>
                     </option>
                 <?php } ?>

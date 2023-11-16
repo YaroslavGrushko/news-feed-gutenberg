@@ -53,12 +53,24 @@ registerBlockType('news-feed-gutenberg/news-block', {
                     ]}
                     onChange={(value) => setAttributes({ country: value })}
                 />
+                <SelectControl
+                    label={__("Set Default Category", 'news_feed_gutenberg')}
+                    value={attributes.category}
+                    options={[
+                        { label: 'Business', value: 'business' },
+                        { label: 'Science', value: 'science' },
+                        { label: 'Sports', value: 'sports' },
+                        { label: 'General', value: 'general' },
+                    ]}
+                    onChange={(value) => setAttributes({ category: value })}
+                />
                 <ServerSideRender
                     block="news-feed-gutenberg/news-block"
                     attributes={{
                         apikey: attributes.apikey,
                         pageSize: attributes.pageSize,
                         country: attributes.country,
+                        category: attributes.category,
                     }}
                 />
             </div>

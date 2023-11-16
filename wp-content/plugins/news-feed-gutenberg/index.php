@@ -64,14 +64,22 @@ class News_Feed_Gutenberg{
 		$api_key = $block_attributes['apikey'];
 		$page_size = $block_attributes['pageSize'];
 		$country = $block_attributes['country'];
-		// $category = $block_attributes['category'];
+		$category = $block_attributes['category'];
 		$countries = [
 			'us' => 'USA',
 			'ua' => 'Ukraine',
 		];
+		$categories = [
+			'business' => 'Business',
+			'science' => 'Science',
+			'sports' => 'Sports',
+			'general' => 'General',
+		];
 
-		$country = $this->news_feed_gutenberg_form_check_submit($country);
-		$api_url = "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$api_key&pageSize=$page_size";
+		$submit_result = $this->news_feed_gutenberg_form_check_submit($country, $category);
+		$country = $submit_result["country"];
+		$category = $submit_result["category"];
+		$api_url = "https://newsapi.org/v2/top-headlines?country=$country&category=$category&apiKey=$api_key&pageSize=$page_size";
 		$user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
 		$request_args = array(
 			'method'      => 'GET',
@@ -103,12 +111,13 @@ class News_Feed_Gutenberg{
 		return [];
 	}
 	// form submit handler 
-	function news_feed_gutenberg_form_check_submit($country) {
+	function news_feed_gutenberg_form_check_submit($country, $category) {
 		$verified = isset( $_POST['news_feed_gutenberg_nonce_field'] ) && wp_verify_nonce( $_POST['news_feed_gutenberg_nonce_field'], 'news_feed_gutenberg_nonce_action' ); 
 		if ( $verified && isset($_POST['news_feed_gutenberg_form_submit']) ) {
 			$country = $_POST["news_feed_gutenberg_country"]; 
+			$category = $_POST["news_feed_gutenberg_category"]; 
 		}
-		return $country;
+		return ['country' => $country, 'category' => $category];
 	}
 }
 
