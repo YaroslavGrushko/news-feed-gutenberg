@@ -25,6 +25,10 @@ class News_Feed_Gutenberg{
     function __construct(){
 		add_action( 'init', array($this, 'news_feed_gutenberg_register_block') );
 		add_action( 'wp_enqueue_scripts', array($this, 'news_feed_gutenberg_register_scripts') );
+		if(is_admin()){
+			// Add backend styles for Gutenberg.
+			add_action('enqueue_block_editor_assets', array($this, 'news_feed_gutenberg_register_scripts'));
+		}
 	}
 	// register css 
 	function news_feed_gutenberg_register_scripts(){
