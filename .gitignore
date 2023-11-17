@@ -21,6 +21,5 @@
 /wp-content/themes/*
 !wp-content/plugins/news-feed-gutenberg
 wp-content/plugins/news-feed-gutenberg/node_modules
-wp-content/plugins/news-feed-gutenberg/build
 .vscode/launch.json
 wp-content/backups-dup-lite/
